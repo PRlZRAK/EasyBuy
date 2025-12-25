@@ -52,7 +52,7 @@ export default function MainPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/products/");
+        const response = await axios.get("http://localhost:8000/api/products/");
         setProducts(response.data);
       } catch (error) {
         console.error("Failed to load products:", error);
@@ -71,10 +71,10 @@ export default function MainPage() {
               <div className="product-card">
                 <img
                   src={product.image}
-                  alt={product.title}
+                  alt={product.name}
                   className="product-image"
                 />
-                <div className="product-title">{product.title}</div>
+                <div className="product-title">{product.name}</div>
                 <div className="product-price">€{product.price}</div>
               </div>
             </Link>
