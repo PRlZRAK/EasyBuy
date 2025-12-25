@@ -17,6 +17,7 @@ from .serializers import (
 class EmailTokenObtainPairView(TokenObtainPairView):
     serializer_class = EmailTokenObtainPairSerializer
 
+
 class RegisterView(APIView):
     permission_classes = [AllowAny]
 
@@ -34,7 +35,9 @@ class MeView(APIView):
         return Response(MeSerializer(request.user).data)
 
     def patch(self, request):
-        serializer = MeUpdateSerializer(instance=request.user, data=request.data, partial=True)
+        serializer = MeUpdateSerializer(
+            instance=request.user, data=request.data, partial=True
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(MeSerializer(request.user).data)
@@ -47,8 +50,8 @@ class SellerModeView(APIView):
         serializer = SellerModeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        request.user.profile.is_seller_mode = serializer.validated_data["is_seller_mode"]
-        request.user.profile.save(update_fields=["is_seller_mode"])
+        request.user.profile.is_seller = serializer.validated_data["is_seller"]
+        request.user.profile.save(update_fields=["is_seller"])
 
         return Response(MeSerializer(request.user).data)
 
