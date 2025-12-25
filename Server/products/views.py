@@ -7,7 +7,7 @@ from .serializers import ProductSerializer
 from .permissions import IsSellerOwnerOrAdminOrReadOnly, is_seller
 
 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.exceptions import PermissionDenied
 
 
@@ -17,6 +17,8 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     /api/products/
     /api/products/<uuid>/
     """
+
+    permission_classes = [AllowAny]
 
     serializer_class = ProductSerializer
 
