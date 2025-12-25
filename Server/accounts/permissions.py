@@ -1,5 +1,6 @@
 from rest_framework.permissions import BasePermission
 
+
 class IsSellerModeEnabled(BasePermission):
     message = "Seller mode is not enabled for this account."
 
@@ -7,4 +8,4 @@ class IsSellerModeEnabled(BasePermission):
         user = request.user
         if not user or not user.is_authenticated:
             return False
-        return hasattr(user, "profile") and user.profile.is_seller_mode is True
+        return hasattr(user, "profile") and user.profile.is_seller is True

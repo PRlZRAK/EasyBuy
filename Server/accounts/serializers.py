@@ -23,14 +23,20 @@ class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
         try:
             user = User.objects.get(email__iexact=email)
         except User.DoesNotExist:
-            raise serializers.ValidationError("No active account found with the given credentials.")
+            raise serializers.ValidationError(
+                "No active account found with the given credentials."
+            )
 
         if not user.is_active:
-            raise serializers.ValidationError("No active account found with the given credentials.")
+            raise serializers.ValidationError(
+                "No active account found with the given credentials."
+            )
 
         # Check password (works with default User model)
         if not check_password(password, user.password):
-            raise serializers.ValidationError("No active account found with the given credentials.")
+            raise serializers.ValidationError(
+                "No active account found with the given credentials."
+            )
 
         # Create tokens directly (skip super().validate to avoid KeyError)
         refresh = self.get_token(user)
@@ -38,6 +44,7 @@ class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
             "refresh": str(refresh),
             "access": str(refresh.access_token),
         }
+
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=8)
@@ -64,17 +71,17 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.Serializer):
-    is_seller_mode = serializers.BooleanField()
+    is_seller = serializers.BooleanField()
     avatar = serializers.ImageField(required=False, allow_null=True)
 
 
 class MeSerializer(serializers.ModelSerializer):
-    is_seller_mode = serializers.BooleanField(source="profile.is_seller_mode", read_only=True)
+    is_seller = serializers.BooleanField(source="profile.is_seller", read_only=True)
     avatar = serializers.ImageField(source="profile.avatar", read_only=True)
 
     class Meta:
         model = User
-        fields = ("id", "username", "email", "is_seller_mode", "avatar")
+        fields = ("id", "username", "email", "is_seller", "avatar")
 
 
 class MeUpdateSerializer(serializers.ModelSerializer):
@@ -84,7 +91,7 @@ class MeUpdateSerializer(serializers.ModelSerializer):
 
 
 class SellerModeSerializer(serializers.Serializer):
-    is_seller_mode = serializers.BooleanField()
+    is_seller = serializers.BooleanField()
 
 
 class AvatarUploadSerializer(serializers.Serializer):
