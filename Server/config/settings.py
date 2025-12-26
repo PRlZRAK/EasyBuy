@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "django_filters",
-    "corsheaders", 
+    "corsheaders",
     "rest_framework_simplejwt",
     "accounts.apps.AccountsConfig",
     "products",
@@ -55,6 +55,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
