@@ -7,8 +7,12 @@ from .serializers import ProductSerializer
 from .permissions import IsSellerOwnerOrAdminOrReadOnly, is_seller
 
 
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.exceptions import PermissionDenied
+
+
+from .models import Category
+from .serializers import CategorySerializer
 
 
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):
@@ -61,3 +65,26 @@ class MyProductViewSet(viewsets.ModelViewSet):
         if not (user.is_staff or is_seller(user)):
             raise PermissionDenied("Seller mode is required.")
         serializer.save(seller=user)
+
+
+class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Public categories:
+    GET /api/categories/
+    GET /api/categories/<uuid>/
+    """
+
+    permission_classes = [AllowAny]
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+class AdminCategoryViewSet(viewsets.ModelViewSet):
+    """
+    Admin categories management:
+    POST/PATCH/DELETE /api/admin/categories/...
+    """
+
+    permission_classes = [IsAdminUser]
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
