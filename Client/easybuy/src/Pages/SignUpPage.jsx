@@ -1,4 +1,4 @@
-import "./SignUpPage.css";
+import "./AuthPage.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
@@ -12,7 +12,7 @@ export default function SignUpPage() {
     password: "",
   });
 
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -28,27 +28,40 @@ export default function SignUpPage() {
     setLoading(true);
 
     try {
-      await axios.post("http://localhost:8000/api/auth/register/", {
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-      });
+      await axios.post("http://localhost:8000/api/auth/register/", formData);
 
-      navigate("/login");
+      const tokenResponse = await axios.post(
+        "http://127.0.0.1:8000/api/auth/token/",
+        {
+          email: formData.email,
+          password: formData.password,
+        }
+      );
+
+      localStorage.setItem("access", tokenResponse.data.access);
+      localStorage.setItem("refresh", tokenResponse.data.refresh);
+
+      navigate("/");
     } catch (err) {
-      if (err.response?.data) {
-        setError("Registration failed. Check your data.");
-      } else {
-        setError("Server error. Try again later.");
-      }
+      setError(
+        JSON.stringify(
+          err.response.data.password
+            ? "Password: " + err.response.data.password
+            : err.response.data.email
+            ? err.response.data.email
+            : err.response.data.username
+            ? err.response.data.username
+            : ""
+        )
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="signup-page">
-      <div className="signup-card">
+    <div className="auth-page">
+      <div className="auth-card">
         <h1>Create account</h1>
         <p className="subtitle">Join EasyBuy to buy and sell products</p>
 
@@ -82,12 +95,12 @@ export default function SignUpPage() {
             required
           />
 
-          <button type="submit" className="signup-btn" disabled={loading}>
+          <button type="submit" className="auth-btn" disabled={loading}>
             {loading ? "Creating account..." : "Sign up"}
           </button>
         </form>
 
-        <div className="signup-footer">
+        <div className="auth-footer">
           Already have an account?
           <Link to="/login"> Log in</Link>
         </div>

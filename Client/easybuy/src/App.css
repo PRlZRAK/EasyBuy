@@ -5,6 +5,11 @@
   text-decoration: none;
   color: inherit;
 }
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
 body {
   background-color: #ffedd1;
@@ -57,4 +62,7 @@ main {
   font-size: 16px;
   font-weight: 700;
   color: #31af9a;
+}
+.app-content {
+  flex: 1;
 }
