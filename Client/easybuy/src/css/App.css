@@ -12,7 +12,7 @@
 }
 
 body {
-  background-color: #ffedd1;
+  background-color: #fff3e0;
   color: #1f2937;
 }
 
@@ -30,7 +30,7 @@ main {
 }
 
 .product-card {
-  background: rgb(255, 251, 238);
+  background: rgb(255, 251, 243);
   border-radius: 18px;
   padding: 16px;
   box-shadow: 0 8px 30px rgba(255, 148, 148, 0.04);

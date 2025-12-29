@@ -1,4 +1,4 @@
-import "./Footer.css";
+import "../css/Footer.css";
 import { Link } from "react-router-dom";
 import logo from "../Easybuy.png";
 

@@ -1,7 +1,9 @@
-import "./AuthPage.css";
+import "../css/AuthPage.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
+import api from "../api/axios";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -13,6 +15,7 @@ export default function LoginPage() {
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { fetchUser } = useContext(AuthContext);
 
   const handleChange = (e) => {
     setFormData({
@@ -27,14 +30,11 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/auth/token/",
-        formData
-      );
+      const response = await api.post("/api/auth/token/", formData);
 
       localStorage.setItem("access", response.data.access);
       localStorage.setItem("refresh", response.data.refresh);
-
+      await fetchUser();
       navigate("/");
     } catch (err) {
       setError("Invalid email or password");

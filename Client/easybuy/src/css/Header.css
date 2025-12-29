@@ -117,3 +117,9 @@
 .btn-logout:hover {
   background: #fecaca;
 }
+.btn-seller {
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  color: #374151;
+}

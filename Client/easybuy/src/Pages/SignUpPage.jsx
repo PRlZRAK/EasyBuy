@@ -1,46 +1,56 @@
-import "./AuthPage.css";
+import "../css/AuthPage.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
+import api from "../api/axios";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
+  const { fetchUser } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
+    isSeller: false,
   });
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setError(null);
     setLoading(true);
 
     try {
-      await axios.post("http://localhost:8000/api/auth/register/", formData);
+      await api.post("/api/auth/register/", {
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+      });
 
-      const tokenResponse = await axios.post(
-        "http://127.0.0.1:8000/api/auth/token/",
-        {
-          email: formData.email,
-          password: formData.password,
-        }
-      );
+      const tokenResponse = await api.post("/api/auth/token/", {
+        email: formData.email,
+        password: formData.password,
+      });
 
       localStorage.setItem("access", tokenResponse.data.access);
       localStorage.setItem("refresh", tokenResponse.data.refresh);
 
+      if (formData.isSeller) {
+        await api.patch("/api/me/seller-mode/", { is_seller: true });
+      }
+      await fetchUser();
       navigate("/");
     } catch (err) {
       setError(
@@ -94,6 +104,15 @@ export default function SignUpPage() {
             onChange={handleChange}
             required
           />
+          <label className="seller-checkbox">
+            <input
+              type="checkbox"
+              name="isSeller"
+              checked={formData.isSeller}
+              onChange={handleChange}
+            />
+            I want to sell products on EasyBuy
+          </label>
 
           <button type="submit" className="auth-btn" disabled={loading}>
             {loading ? "Creating account..." : "Sign up"}

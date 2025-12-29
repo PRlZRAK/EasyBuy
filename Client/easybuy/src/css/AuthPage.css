@@ -52,7 +52,7 @@
   margin-top: 8px;
   padding: 12px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #e2b27b, #88fafa);
+  background: linear-gradient(140deg, #e2b27b, #88fafa);
   color: white;
   font-size: 15px;
   font-weight: 600;
@@ -81,4 +81,53 @@
   padding: 10px;
   border-radius: 10px;
   margin-bottom: 16px;
+}
+
+.seller-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+  user-select: none;
+  margin: 8px 0 16px;
+}
+
+.seller-checkbox input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 42px;
+  height: 24px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  position: relative;
+  transition: background 0.25s ease;
+  cursor: pointer;
+}
+
+.seller-checkbox input::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: #ffffff;
+  border-radius: 50%;
+  transition: transform 0.25s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.seller-checkbox input:checked {
+  background: linear-gradient(140deg, #4acbf0, #02eb84);
+}
+
+.seller-checkbox input:checked::before {
+  transform: translateX(18px);
+}
+
+.seller-checkbox input:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 203, 240, 0.35);
 }

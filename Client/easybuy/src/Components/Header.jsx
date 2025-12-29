@@ -1,14 +1,15 @@
 import { useEffect, useState, useRef } from "react";
 import logo from "../Easybuy.png";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import "./Header.css";
+import "../css/Header.css";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Header() {
   const [hideHeader, setHideHeader] = useState(false);
-  const [user, setUser] = useState(null);
   const lastScrollY = useRef(0);
   const navigate = useNavigate();
+  const { user, setUser } = useContext(AuthContext);
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > lastScrollY.current && window.scrollY > 80) {
@@ -21,25 +22,7 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  useEffect(() => {
-    const access = localStorage.getItem("access");
-    if (!access) return;
 
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get("http://127.0.0.1:8000/api/me/", {
-          headers: {
-            Authorization: `Bearer ${access}`,
-          },
-        });
-        setUser(response.data);
-      } catch (error) {
-        console.log("Failed to fetch user: " + error);
-      }
-    };
-
-    fetchUser();
-  }, []);
   const handleLogout = () => {
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
@@ -73,14 +56,19 @@ export default function Header() {
             </>
           ) : (
             <div className="user-info">
-              <div className="user-profile">
+              {user.is_seller && (
+                <Link to="/seller" className="btn-seller">
+                  Seller dashboard
+                </Link>
+              )}
+              <Link to={`/profile/${user.id}`} className="user-profile">
                 {user.avatar ? (
                   <img src={user.avatar} alt="avatar" />
                 ) : (
                   <div className="avatar-placeholder">{user.username[0]}</div>
                 )}
                 <span>{user.username}</span>
-              </div>
+              </Link>
 
               <button className="btn-logout" onClick={handleLogout}>
                 Log out
