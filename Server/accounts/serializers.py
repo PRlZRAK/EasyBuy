@@ -77,11 +77,21 @@ class ProfileSerializer(serializers.Serializer):
 
 class MeSerializer(serializers.ModelSerializer):
     is_seller = serializers.BooleanField(source="profile.is_seller", read_only=True)
-    avatar = serializers.ImageField(source="profile.avatar", read_only=True)
+    avatar = serializers.SerializerMethodField()
 
     class Meta:
         model = User
         fields = ("id", "username", "email", "is_seller", "avatar")
+
+    def get_avatar(self, obj):
+        avatar = getattr(obj.profile, "avatar", None)
+        if not avatar:
+            return None
+
+        request = self.context.get("request")
+        url = avatar.url  # "/media/avatars/avatar.png"
+
+        return request.build_absolute_uri(url) if request else url
 
 
 class MeUpdateSerializer(serializers.ModelSerializer):
