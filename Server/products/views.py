@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -45,6 +46,7 @@ class MyProductViewSet(viewsets.ModelViewSet):
 
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticated, IsSellerOwnerOrAdminOrReadOnly]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ["is_active", "currency"]
