@@ -117,9 +117,13 @@
 .btn-logout:hover {
   background: #fecaca;
 }
-.btn-seller {
+.header-seller-link {
   padding: 8px 14px;
-  border-radius: 10px;
+  font-weight: 600;
+  color: #374151;
+}
+.header-cart-link {
+  padding: 8px 14px;
   font-weight: 600;
   color: #374151;
 }

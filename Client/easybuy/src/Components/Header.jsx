@@ -40,9 +40,9 @@ export default function Header() {
           </Link>
         </div>
 
-        <div className="search-box">
+        {/* <div className="search-box">
           <input type="text" placeholder="Search products..." />
-        </div>
+        </div> */}
 
         <div className="auth-buttons">
           {!user ? (
@@ -57,10 +57,15 @@ export default function Header() {
           ) : (
             <div className="user-info">
               {user.is_seller && (
-                <Link to="/seller" className="btn-seller">
+                <Link to="/seller" className="header-seller-link">
                   Seller dashboard
                 </Link>
               )}
+
+              <Link to="/cart" className="header-cart-link">
+                Cart
+              </Link>
+
               <Link to={`/profile/${user.id}`} className="user-profile">
                 {user.avatar ? (
                   <img src={user.avatar} alt="avatar" />

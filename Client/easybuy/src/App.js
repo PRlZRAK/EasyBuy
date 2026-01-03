@@ -9,29 +9,34 @@ import AboutUsPage from "./Pages/AboutUsPage";
 import ProductPage from "./Pages/ProductPage";
 import AddProductPage from "./Pages/AddProductPage";
 import SellerDashboard from "./Pages/SellerDashboard";
+import CartPage from "./Pages/CartPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import { CartProvider } from "./context/CartContext";
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <div className="App">
-          <Header />
-          <div className="app-content">
-            <Routes>
-              <Route path="/register" element={<SignUpPage />}></Route>
-              <Route path="/login" element={<LoginPage />}></Route>
-              <Route path="/" element={<MainPage />} />
-              <Route path="/profile/:id" element={<ProfilePage />} />
-              <Route path="/about" element={<AboutUsPage />} />
-              <Route path="/product/:id" element={<ProductPage />} />
-              <Route path="/seller" element={<SellerDashboard />} />
-              <Route path="/seller/add" element={<AddProductPage />} />
-            </Routes>
+        <CartProvider>
+          <div className="App">
+            <Header />
+            <div className="app-content">
+              <Routes>
+                <Route path="/register" element={<SignUpPage />}></Route>
+                <Route path="/login" element={<LoginPage />}></Route>
+                <Route path="/" element={<MainPage />} />
+                <Route path="/profile/:id" element={<ProfilePage />} />
+                <Route path="/about" element={<AboutUsPage />} />
+                <Route path="/product/:id" element={<ProductPage />} />
+                <Route path="/seller" element={<SellerDashboard />} />
+                <Route path="/seller/add" element={<AddProductPage />} />
+                <Route path="/cart" element={<CartPage />} />
+              </Routes>
+            </div>
+            <Footer />
           </div>
-          <Footer />
-        </div>
+        </CartProvider>
       </AuthProvider>
     </BrowserRouter>
   );

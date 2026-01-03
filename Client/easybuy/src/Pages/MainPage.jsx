@@ -1,17 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import logo from "../Easybuy.png";
+import placeholder from "../Easybuy.png";
 
 export default function MainPage() {
-  const [products, setProducts] = useState([
-    {
-      id: 7,
-      title: "Sample Product",
-      price: 999,
-      image: logo,
-    },
-  ]);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -27,26 +20,31 @@ export default function MainPage() {
   }, []);
 
   return (
-    <>
-      <main>
-        <div className="products-grid">
-          {products.map((product) => (
+    <main>
+      <div className="products-grid">
+        {products.map((product) => {
+          const img = product.images?.[0]?.image || placeholder;
+
+          return (
             <Link to={`/product/${product.id}`} key={product.id}>
               <div className="product-card">
                 <img
-                  src={product.image}
+                  src={img}
                   alt={product.name}
                   className="product-image"
+                  loading="lazy"
                 />
+
                 <div className="product-title">{product.name}</div>
-                <div className="product-price">€{product.price}</div>
+
+                <div className="product-price">
+                  {product.price} {product.currency}
+                </div>
               </div>
             </Link>
-          ))}
-        </div>
-
-        <p></p>
-      </main>
-    </>
+          );
+        })}
+      </div>
+    </main>
   );
 }
