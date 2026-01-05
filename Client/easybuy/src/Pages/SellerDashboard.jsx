@@ -3,6 +3,7 @@ import { AuthContext } from "../context/AuthContext";
 import { Navigate, Link } from "react-router-dom";
 import api from "../api/axios";
 import "../css/SellerDashboard.css";
+import placeholder from "../Easybuy.png";
 
 export default function SellerDashboard() {
   const { user, loading } = useContext(AuthContext);
@@ -47,20 +48,30 @@ export default function SellerDashboard() {
         <p>No products yet</p>
       ) : (
         <div className="seller-products">
-          {products.map((p) => (
-            <div key={p.id} className="seller-product-card">
-              <h3>{p.name}</h3>
-              <p>
-                {p.price} {p.currency}
-              </p>
-              <p>Stock: {p.stock}</p>
+          {products.map((p) => {
+            const img = p.images?.[0]?.image || placeholder;
+            return (
+              <div key={p.id} className="seller-product-card">
+                <img
+                  src={img}
+                  alt={p.name}
+                  className="product-image"
+                  loading="lazy"
+                />
 
-              <div className="seller-actions">
-                <Link to={`/seller/edit/${p.id}`}>Edit</Link>
-                <button onClick={() => handleDelete(p.id)}>Delete</button>
+                <h3>{p.name}</h3>
+                <p>
+                  {p.price} {p.currency}
+                </p>
+                <p>Stock: {p.stock}</p>
+
+                <div className="seller-actions">
+                  <Link to={`/seller/edit/${p.id}`}>Edit</Link>
+                  <button onClick={() => handleDelete(p.id)}>Delete</button>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

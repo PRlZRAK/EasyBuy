@@ -5,13 +5,17 @@ import placeholder from "../Easybuy.png";
 import "../css/ProductPage.css";
 import { CartContext } from "../context/CartContext";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 export default function ProductPage() {
   const { id } = useParams();
-
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const { addToCart } = useContext(CartContext);
+  const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -42,6 +46,18 @@ export default function ProductPage() {
     product.images && product.images.length > 0
       ? product.images[0].image
       : placeholder;
+  const handleAddToCart = (e, product) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
+    addToCart(product);
+    toast.success("Added to cart");
+  };
 
   return (
     <div className="product-page-div">
@@ -66,7 +82,7 @@ export default function ProductPage() {
 
           <button
             className="product-page-add-to-cart"
-            onClick={() => addToCart(product)}
+            onClick={(e) => handleAddToCart(e, product)}
             disabled={product.stock === 0}
           >
             {product.stock === 0 ? "Out of stock" : "Add to cart"}

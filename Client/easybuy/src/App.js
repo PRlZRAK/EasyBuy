@@ -10,9 +10,11 @@ import ProductPage from "./Pages/ProductPage";
 import AddProductPage from "./Pages/AddProductPage";
 import SellerDashboard from "./Pages/SellerDashboard";
 import CartPage from "./Pages/CartPage";
+import EditProductPage from "./Pages/EditProductPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
         <CartProvider>
           <div className="App">
             <Header />
+            <Toaster position="top-center" reverseOrder={true} />
             <div className="app-content">
               <Routes>
                 <Route path="/register" element={<SignUpPage />}></Route>
@@ -32,6 +35,7 @@ function App() {
                 <Route path="/seller" element={<SellerDashboard />} />
                 <Route path="/seller/add" element={<AddProductPage />} />
                 <Route path="/cart" element={<CartPage />} />
+                <Route path="/seller/edit/:id" element={<EditProductPage />} />
               </Routes>
             </div>
             <Footer />

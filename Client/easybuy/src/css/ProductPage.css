@@ -21,6 +21,7 @@
   background: #f1f5f9;
   overflow: hidden;
   flex-shrink: 0;
+  border: 2px solid #e5e7eb;
 }
 
 .product-page-image img {

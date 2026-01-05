@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import logo from "../Easybuy.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import "../css/Header.css";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
@@ -10,6 +10,12 @@ export default function Header() {
   const lastScrollY = useRef(0);
   const navigate = useNavigate();
   const { user, setUser } = useContext(AuthContext);
+  const [search, setSearch] = useState("");
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    setSearch(searchParams.get("search") || "");
+  }, [searchParams]);
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > lastScrollY.current && window.scrollY > 80) {
@@ -22,6 +28,13 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearch(value);
+
+    navigate(value ? `/?search=${value}` : "/");
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("access");
@@ -40,10 +53,14 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* <div className="search-box">
-          <input type="text" placeholder="Search products..." />
-        </div> */}
-
+        <div className="search-box">
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={search}
+            onChange={handleSearchChange}
+          />
+        </div>
         <div className="auth-buttons">
           {!user ? (
             <>

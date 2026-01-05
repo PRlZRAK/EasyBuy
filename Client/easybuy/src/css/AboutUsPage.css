@@ -1,0 +1,87 @@
+.about-page {
+  padding: 100px 16px 40px;
+  display: flex;
+  justify-content: center;
+  background: #fff3e0;
+}
+
+.about-card {
+  width: 100%;
+  max-width: 720px;
+  background: rgb(255, 251, 243);
+  border-radius: 20px;
+  padding: 36px 32px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.about-card h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.about-card h2 {
+  font-size: 22px;
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+
+.about-description {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #374151;
+  margin-bottom: 14px;
+}
+
+.about-team {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.team-member {
+  flex: 1;
+  min-width: 220px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.team-member h3 {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.team-member p {
+  font-size: 14px;
+  font-weight: 600;
+  color: #31af9a;
+  margin-bottom: 8px;
+}
+
+.team-member span {
+  font-size: 14px;
+  color: #4b5563;
+}
+.github-link {
+  display: block;
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.github-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .about-card {
+    padding: 24px 20px;
+  }
+
+  .about-team {
+    flex-direction: column;
+  }
+}

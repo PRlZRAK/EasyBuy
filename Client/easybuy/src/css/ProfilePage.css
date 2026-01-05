@@ -58,6 +58,7 @@
 
 .profile-avatar img {
   object-fit: cover;
+  min-width: 120px;
 }
 
 .profile-avatar-placeholder {
@@ -93,4 +94,15 @@
   font-weight: 600;
   color: #ffffff;
   background: linear-gradient(140deg, #e2b27b, #88fafa);
+}
+@media (max-width: 450px) {
+  .profile-card {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 430px) {
+  .profile-card {
+    margin-top: 10px;
+  }
 }
