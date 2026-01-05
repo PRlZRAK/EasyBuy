@@ -1,6 +1,6 @@
 # EasyBuy
 
-EasyBuy is a final course project that represents an online marketplace with the ability to buy and sell products.  
+EasyBuy is a course final project that represents an online marketplace with the ability to buy and sell products.  
 The project was created as part of the learning process and demonstrates the application of studied technologies as well as skills acquired through independent practice.
 
 ---
